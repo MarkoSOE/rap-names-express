@@ -1,9 +1,9 @@
+const { request, response } = require('express')
 const express = require('express')
 const app = express()
 const MongoClient = require('mongodb').MongoClient
 const PORT = 2121
 require('dotenv').config()
-
 
 let db,
     dbConnectionStr = process.env.DB_STRING,
@@ -21,23 +21,24 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 
-// app.get('/',(request, response)=>{
-//     db.collection('rappers').find().sort({likes: -1}).toArray()
-//     .then(data => {
-//         response.render('index.ejs', { info: data })
-//     })
-//     .catch(error => console.error(error))
-// })
+app.get('/',(request, response)=>{
+    db.collection('todoitems').find().toArray()
+    .then(data => {
+        // console.log('data load')
+        response.render('index.ejs', { info:data })
+    })
+    .catch(error => console.error(error))
+})
 
-// app.post('/addRapper', (request, response) => {
-//     db.collection('rappers').insertOne({stageName: request.body.stageName,
-//     birthName: request.body.birthName, likes: 0})
-//     .then(result => {
-//         console.log('Rapper Added')
-//         response.redirect('/')
-//     })
-//     .catch(error => console.error(error))
-// })
+app.post('/additem',(request,response) =>{
+    db.collection('todoitems').insertOne({title: request.body.todoTitle, 
+    body: request.body.todoContent})
+    .then(result =>{
+        console.log('added item')
+        response.redirect('/')
+    })
+    .catch(error => console.error(error))
+})
 
 // app.put('/addOneLike', (request, response) => {
 //     db.collection('rappers').updateOne({stageName: request.body.stageNameS, birthName: request.body.birthNameS,likes: request.body.likesS},{
