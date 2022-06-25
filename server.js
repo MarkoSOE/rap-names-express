@@ -57,15 +57,15 @@ app.post('/additem',(request,response) =>{
 
 // })
 
-// app.delete('/deleteRapper', (request, response) => {
-//     db.collection('rappers').deleteOne({stageName: request.body.stageNameS})
-//     .then(result => {
-//         console.log('Rapper Deleted')
-//         response.json('Rapper Deleted')
-//     })
-//     .catch(error => console.error(error))
+app.delete('/deleteItem', (request, response) => {
+    db.collection('todoitems').deleteOne({title: request.body.iTitle})
+    .then(result => {
+        console.log('Item Deleted')
+        response.json('Item Deleted')
+    })
+    .catch(error => console.error(error))
 
-// })
+})
 
 app.listen(process.env.PORT || PORT, ()=>{
     console.log(`Server running on port ${PORT}`)
